@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FormaPedago+</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li id="logo"><a href="#">FormaPedago+</a></li>
+                <li><a href="#presentation-content">À propos</a></li>
+                <li><a href="#contactForm">Nous contacter</a></li>
+            </ul>
+        </nav>
+        <div id="imagepr">
+            <h1>FormaPedago+</h1>
+            <div id="premierTrait"></div>
+            <h3>Dr Bouchera Zougagh</h3>
+        </div>
+    </header>
+
+    <section id="presentation">
+        <div id="textintro">
+            <h2>Suivi pédagogique de votre établissement</h2>
+        </div>
+        <div id="presentation-content">
+            <div class="imagesprestation">
+                <h4>Coaching</h4>
+                <a href="#"><img src="image/la-pedagogie-par-projet-810x521.jpg" alt="Coaching pédagogique" /></a>
+            </div>
+            <div class="imagesprestation">
+                <h4>Pédagogie de l'établissement</h4>
+                <a href="#"><img src="image/WhatsApp Image 2024-08-19 à 11.5 (1).jpg" alt="Pédagogie de l'établissement" /></a>
+            </div>
+        </div>
+    </section>
+
+    <section id="tourisme">
+        <h2>À propos de nous...</h2>
+        <ul>
+            <li id="ocean">
+                <h3>Notre mission</h3>
+                <p>Notre mission est d'améliorer la qualité de l'enseignement à travers un suivi pédagogique rigoureux et des solutions innovantes adaptées aux besoins de chaque établissement.</p>
+            </li>
+            <li id="chateau">
+                <h3>Notre équipe</h3>
+                <p>Notre équipe est composée d'experts en pédagogie, dirigée par le Dr Bouchera Zougagh, avec une expérience solide dans la gestion et l'optimisation des performances académiques.</p>
+            </li>
+            <li id="phare">
+                <h3>Nos valeurs</h3>
+                <p>Nous valorisons l'innovation, l'excellence, l'intégrité et la collaboration pour créer des environnements d'apprentissage où les étudiants et les enseignants peuvent s'épanouir pleinement.</p>
+            </li>
+            <li id="vignoble">
+                <h3>Nos objectifs</h3>
+                <p>Nos objectifs sont de permettre aux établissements scolaires de progresser continuellement dans la qualité de l'enseignement et de renforcer la motivation et la compétence des enseignants.</p>
+            </li>
+        </ul>
+    </section>
+
+    <footer>
+        <div class="contact-container">
+            <form id="contactForm" class="contact-left">
+                <div class="contact-left-title">
+                    <h2>Contactez-nous</h2>
+                    <hr>
+                </div>
+                <input type="hidden" name="access_key" value="b0d72846-434b-4d69-a21f-b95aec8d2af7">
+                <input type="text" name="name" placeholder="Votre nom" class="contact-ir" required>
+                <input type="email" name="email" placeholder="Votre email" class="contact" required>
+                <textarea name="message" placeholder="Votre message" class="contact-input" required></textarea>
+                <button type="submit">Envoyer</button>
+            </form>
+        </div>
+        <script>
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault(); // Empêche l'envoi par défaut du formulaire
+    
+                const submitButton = document.querySelector('button[type="submit"]');
+                submitButton.disabled = true; // Désactiver le bouton pour éviter plusieurs soumissions
+                submitButton.textContent = "Envoi en cours...";
+    
+                const formData = new FormData(this);
+    
+                // Envoi à Web3Forms
+                fetch('https://api.web3forms.com/submit', {
+
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Formulaire soumis à Web3Forms:', data);
+    
+                    // Deuxième action - Envoi à votre serveur local
+                    const jsonData = {
+                        name: formData.get('name'),
+                        email: formData.get('email'),
+                        message: formData.get('message')
+                    };
+    
+                    fetch('/submit', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(jsonData)
+                    })
+                    .then(response => response.json())
+                    .then(serverResponse => {
+                        console.log('Formulaire soumis au serveur local:', serverResponse);
+                        alert('Formulaire envoyé avec succès à Web3Forms et à votre serveur !');
+                        submitButton.disabled = false;
+                        submitButton.textContent = "Envoyer"; // Réactivation du bouton
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de l\'envoi au serveur local:', error);
+                        alert('Erreur lors de l\'envoi au serveur local.');
+                        submitButton.disabled = false;
+                        submitButton.textContent = "Envoyer"; // Réactivation du bouton
+                    });
+
+                })
+                .catch(error => {
+                    console.error('Erreur lors de l\'envoi à Web3Forms:', error);
+                    alert('Erreur lors de l\'envoi à Web3Forms.');
+                    submitButton.disabled = false;
+                    submitButton.textContent = "Envoyer"; // Réactivation du bouton en cas d'erreur
+                });
+            });
+        </script>
+        <div id="deuxiemeTrait"></div>
+        <div id="copyrightEtIcons">
+            <div id="copyright">
+                <span>© fromscratch(); 2024</span>
+            </div>
+            <div id="icons">
+                <a href="http://www.instagram.fr" aria-label="Instagram"><i class="fa fa-instagram"></i></a>
+                <a href="http://www.facebook.fr" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
